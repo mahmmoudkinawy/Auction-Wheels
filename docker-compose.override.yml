@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  postgres:
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Pa$$w0rd
+      - POSTGRES_DB=AuctionDb
+    ports:
+      - 5432:5432
+    restart: always 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
