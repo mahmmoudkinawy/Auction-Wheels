@@ -1,0 +1,10 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using MongoDB.Driver;
+global using MongoDB.Entities;
+global using Polly;
+global using Polly.Extensions.Http;
+global using Search.Api.Database;
+global using Search.Api.Helpers;
+global using Search.Api.Models;
+global using Search.Api.Services;
+global using System.Net;

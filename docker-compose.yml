@@ -4,5 +4,9 @@ services:
   postgres:
     image: postgres  
 
+  mongodb:
+    image: mongo
+    
 volumes:
   postgres_data:
+  mongodata:  

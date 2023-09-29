@@ -12,3 +12,13 @@ services:
     restart: always 
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  mongodb:
+    container_name: mongodb    
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=Pa$$w0rd
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/var/lib/mongodb/data

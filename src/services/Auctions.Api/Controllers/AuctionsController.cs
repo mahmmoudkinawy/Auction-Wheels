@@ -18,14 +18,25 @@ public sealed class AuctionsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAuctions(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAuctions(
+        [FromQuery] string? date,
+        CancellationToken cancellationToken)
     {
-        var auctions = await _context.Auctions
-            .Include(a => a.Item)
+        var query = _context.Auctions
             .OrderBy(a => a.Item.Make)
-            .ToListAsync(cancellationToken);
+            .AsQueryable();
 
-        return Ok(_mapper.Map<IReadOnlyList<AuctionResponse>>(auctions));
+        if (!string.IsNullOrWhiteSpace(date)
+            && DateTime.TryParse(date, out var dateTime))
+        {
+            query = query.Where(a => a.UpdatedAt.Value.CompareTo(dateTime.ToUniversalTime()) > 0);
+        }
+
+        var auctions = await query
+            .ProjectTo<AuctionResponse>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        return Ok(auctions);
     }
 
     [HttpGet("{auctionId}", Name = "GetAuctionById")]
